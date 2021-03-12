@@ -43,7 +43,7 @@ def index():
     #st
     rows = []
     uid = session["user_id"]
-    query = "SELECT symbol, sum(shares) as shares FROM transactions group by symbol having user_id = :uid and sum(shares) >0"
+    query = "SELECT symbol, sum(shares) as shares FROM transactions group by user_id, symbol having user_id = :uid and sum(shares) >0"
     sums = db.execute(query, uid=uid)
     grand = 0
     cashrow = db.execute("SELECT cash FROM users WHERE id = :uid", uid=uid)
