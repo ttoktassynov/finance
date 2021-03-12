@@ -85,7 +85,7 @@ def buy():
         if price * shares > cash:
             return apology("can't afford it")
 
-        db.execute("INSERT INTO transactions (symbol, user_id, shares, price) values (:sym, :uid, :sh, :pr)",
+        db.execute("INSERT INTO transactions (id, symbol, user_id, shares, price) values (nextval('trans_id_seq'), :sym, :uid, :sh, :pr)",
             sym=sym, uid=uid, sh=shares, pr=price)
 
         left = cash - price * shares
@@ -249,7 +249,7 @@ def sell():
             return apology("Symbol not set")
 
         # Check if user has such shares
-        query = "SELECT sum(shares) as shares FROM transactions group by symbol having user_id = :uid and symbol = :sym and sum(shares) >0"
+        query = "SELECT sum(shares) as shares FROM transactions group by user_id, symbol having user_id = :uid and symbol = :sym and sum(shares) >0"
         rows = db.execute(query, uid=uid, sym=sym)
         if len(rows) != 1:
             return apology("No such symbol in portfolio")
@@ -286,7 +286,7 @@ def sell():
         return redirect("/")
 
     else:
-        symbols = db.execute("SELECT symbol FROM transactions group by symbol having user_id = :uid and sum(shares) >0 order by symbol",
+        symbols = db.execute("SELECT symbol FROM transactions group by user_id, symbol having user_id = :uid and sum(shares) >0 order by symbol",
             uid = uid)
 
         return render_template("sell.html", symbols=symbols)
