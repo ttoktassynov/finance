@@ -40,6 +40,10 @@ db = SQL(os.getenv("DATABASE_URL"))
 if not os.environ.get("API_KEY"):
     raise RuntimeError("API_KEY not set")
 
+@app.route("/.well-known/acme-challenge/XBv8CK7dwG4QBag-xKaOLk51EbElzAmdhO3qblA9Eeo")
+def well_known():
+    return "XBv8CK7dwG4QBag-xKaOLk51EbElzAmdhO3qblA9Eeo.BOM2A_2wYrYgHD8PpC9djr8E-gEZLwPgL5P4OYLKcKg"
+
 @app.route("/")
 @login_required
 def index():
