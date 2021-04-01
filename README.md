@@ -9,4 +9,4 @@ To get started:
 4. Start Flask’s built-in web server (within finance/): $ flask run
 5. Visit the outputed URL
 
-The app is deployed at https://tima-finance-app.heroku.com
+The app is deployed at https://tima-finance-app.herokuapp.com
