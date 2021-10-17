@@ -25,7 +25,7 @@ def login_required(f):
     """
     Decorate routes to require login.
 
-    http://flask.pocoo.org/docs/1.0/patterns/viewdecorators/
+    https://flask.palletsprojects.com/en/1.1.x/patterns/viewdecorators/
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -38,10 +38,11 @@ def login_required(f):
 def lookup(symbol):
     """Look up quote for symbol."""
 
-    # Contact APIl
+    # Contact API
     try:
         api_key = os.environ.get("API_KEY")
-        response = requests.get(f"https://cloud-sse.iexapis.com/stable/stock/{urllib.parse.quote_plus(symbol)}/quote?token={api_key}")
+        url = f"https://cloud.iexapis.com/stable/stock/{urllib.parse.quote_plus(symbol)}/quote?token={api_key}"
+        response = requests.get(url)
         response.raise_for_status()
     except requests.RequestException:
         return None

@@ -35,7 +35,8 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use Postres database
-db = SQL(os.getenv("DATABASE_URL"))
+#db = SQL(os.getenv("DATABASE_URL"))
+db = SQL("sqlite:///finance.db")
 # Make sure API key is set
 if not os.environ.get("API_KEY"):
     raise RuntimeError("API_KEY not set")
@@ -92,7 +93,7 @@ def buy():
         if price * shares > cash:
             return apology("can't afford it")
 
-        db.execute("INSERT INTO transactions (id, symbol, user_id, shares, price) values (nextval('trans_id_seq'), :sym, :uid, :sh, :pr)",
+        db.execute("INSERT INTO transactions (symbol, user_id, shares, price) values (:sym, :uid, :sh, :pr)",
             sym=sym, uid=uid, sh=shares, pr=price)
 
         left = cash - price * shares
