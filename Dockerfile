@@ -5,5 +5,5 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 COPY . .
-ENV FLASK_APP=application.py API_KEY=pk_2bd1949aba62442aa8f0029455fec56c FLASK_RUN_PORT=5000
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+ENV API_KEY=pk_2bd1949aba62442aa8f0029455fec56c
+CMD [ "waitress-serve", "--call" , "application:create_app"]

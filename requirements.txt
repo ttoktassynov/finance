@@ -1,5 +1,6 @@
 requests==2.25.1
-cs50==7.0.2
+cs50==8.0.1
 Flask==2.0.2
 flask_session==0.4.0
 Werkzeug==2.0.2
+waitress==2.0.0
