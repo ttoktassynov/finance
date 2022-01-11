@@ -2,11 +2,43 @@
 
 This is simple web application that can get quote for different stocks from iexcloud.io website. It also allows you to buy, sell, see history of transactions in your profile.
 
-To get started:
-1. Get API key by registering at iexcloud.io/cloud-login#/register/.
-2. Copy the key that appears under the Token column (it should begin with pk_) in API tokens section.
-3. In a terminal window within CS50 IDE, execute: $ export API_KEY=value
-4. Start Flask’s built-in web server (within finance/): $ flask run
-5. Visit the outputed URL
+The app is servied via `waitress` and run on `flask` framework with `sqlite3` database on the backend and `Jinja` templates on the front-end.
 
-The app is deployed at https://tima-finance-app.herokuapp.com
+The app can be viewed on [Heroku](http://stocktrading21.herokuapp.com/)
+
+## Configuration
+
+- Visit [iexcloud](iexcloud.io/cloud-login#/register/) and obtain token
+- Prepare environmental variables. For local development install `pip install python-decouple`, create `.env` file, to which include `API_KEY=your_token`. For producation deployment include that key value pair in settings.
+
+## Run
+
+- Run `python application.py`
+
+## Run with Docker locally
+
+- Run `docker build --tag finance .` to build an image
+- Run `docker run -p 5000:5000 finance` to run the container
+
+## Deployment on Heroku
+
+- Create `heroku.yml` manifest:
+
+```[yml]
+build:
+  docker:
+    web: Dockerfile
+```
+
+- Commit changes to heroku git:
+
+```[git]
+git add heroku.yml
+git commit -m "Add heroku.yml"
+```
+
+- Set the stack of your app to container:
+`heroku stack:set container`
+
+- Push your app to Heroku
+`git push heroku master`
