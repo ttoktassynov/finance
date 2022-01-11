@@ -5,6 +5,7 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
+from decouple import config
 
 from helpers import apology, login_required, lookup, usd
 
@@ -38,7 +39,7 @@ Session(app)
 #db = SQL(os.getenv("DATABASE_URL"))
 db = SQL("sqlite:///finance.db")
 # Make sure API key is set
-if not os.environ.get("API_KEY"):
+if not config("API_KEY"):
     raise RuntimeError("API_KEY not set")
 
 @app.route("/.well-known/acme-challenge/XBv8CK7dwG4QBag-xKaOLk51EbElzAmdhO3qblA9Eeo")
@@ -317,6 +318,5 @@ def create_app():
 
 if __name__ == '__main__':
     from waitress import serve
-    from decouple import config
     PORT = config('PORT', default=5000, cast=int)
     serve(app, host="0.0.0.0", port=PORT)
